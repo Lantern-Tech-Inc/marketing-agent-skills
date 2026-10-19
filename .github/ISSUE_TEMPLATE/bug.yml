@@ -1,0 +1,30 @@
+name: Skill issue
+description: Report an incorrect, unsafe, or incomplete workflow.
+title: "[Issue]: "
+labels:
+  - bug
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: Skill name
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Explain what is incorrect, unsafe, ambiguous, or incomplete.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Agent and environment
+      description: Include the agent platform and relevant tools without sharing secrets.

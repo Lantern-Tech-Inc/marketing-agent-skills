@@ -1,0 +1,32 @@
+name: Skill request
+description: Propose a new reusable marketing workflow.
+title: "[Skill]: "
+labels:
+  - skill-request
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Marketing problem
+      description: What repeatable task should the agent complete?
+    validations:
+      required: true
+  - type: textarea
+    id: triggers
+    attributes:
+      label: Invocation triggers
+      description: What user requests or keywords should cause the skill to load?
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Expected output
+      description: Describe the artifact or decision the workflow should produce.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and tools
+      description: What sources, APIs, or tools are required?

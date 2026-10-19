@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: mailto:team@asklantern.com
+    about: Report vulnerabilities privately.
+  - name: Lantern skills directory
+    url: https://www.asklantern.com/skills
+    about: Browse the published skill collection.
