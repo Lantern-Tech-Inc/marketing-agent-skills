@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "content-refresh"
+    ],
+    "query": "Our \"email marketing guide\" lost 40% of clicks. Refresh it.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for query-level Search Console data with like-for-like date ranges (previous period and year over year)",
+      "Checks seasonality, algorithm update dates and site changes before diagnosing",
+      "Produces a per-page cause, action and refresh plan with new evidence"
+    ]
+  },
+  {
+    "skills": [
+      "content-refresh"
+    ],
+    "query": "Just change the updated date on our top 50 posts so they look fresh.",
+    "files": [],
+    "expected_behavior": [
+      "Declines cosmetic date changes, citing Google guidance on faking freshness",
+      "Recommends changing dates only after substantive updates and keeping visible and structured dates consistent"
+    ]
+  },
+  {
+    "skills": [
+      "content-refresh"
+    ],
+    "query": "We have three posts about \"CRM onboarding\" all ranking around position 15.",
+    "files": [],
+    "expected_behavior": [
+      "Identifies likely cannibalization",
+      "Recommends consolidating into the strongest URL with 301 redirects from the others, subject to approval"
+    ]
+  }
+]

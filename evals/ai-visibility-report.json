@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "ai-visibility-report"
+    ],
+    "query": "How visible is our brand in AI search? We are Homebase CRM for real estate agents.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for or proposes a fixed, dated prompt set by query type with engines, locations and run counts",
+      "Defines mention rate, citation rate, share of voice and accuracy with denominators",
+      "Uses first-party sources where available (Search Console, Bing AI Performance, GA4 referrals, logs) and labels limits"
+    ]
+  },
+  {
+    "skills": [
+      "ai-visibility-report"
+    ],
+    "query": "ChatGPT never mentions us. Is our site blocking AI bots?",
+    "files": [],
+    "expected_behavior": [
+      "Checks robots.txt and server/CDN rules for named crawlers (e.g. OAI-SearchBot, GPTBot, ChatGPT-User, Claude-SearchBot, PerplexityBot, Googlebot/Google-Extended)",
+      "Distinguishes search/retrieval crawlers from training crawlers and explains trade-offs"
+    ]
+  },
+  {
+    "skills": [
+      "ai-visibility-report"
+    ],
+    "query": "Run one prompt in ChatGPT and tell me our share of voice.",
+    "files": [],
+    "expected_behavior": [
+      "Explains that one run is not a reliable sample because AI answers vary",
+      "Recommends repeated runs across a prompt set and reports results with dates and sample sizes"
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "brand-voice"
+    ],
+    "query": "Create a brand voice guide for Lantern.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for real on-brand and off-brand samples and audience language, or labels the guide assumption-based",
+      "Defines 3-5 testable traits with \"this, not that\" and sample evidence",
+      "Includes tone positions on NN/g dimensions, context shifts, vocabulary rules, approved claims and before/after examples"
+    ]
+  },
+  {
+    "skills": [
+      "brand-voice"
+    ],
+    "query": "Our voice is friendly, bold and innovative. Write that up.",
+    "files": [],
+    "expected_behavior": [
+      "Explains that labels alone are not testable",
+      "Turns each label into observable rules with examples from real content"
+    ]
+  },
+  {
+    "skills": [
+      "brand-voice"
+    ],
+    "query": "Add \"the #1 AI marketing platform\" to our approved claims.",
+    "files": [],
+    "expected_behavior": [
+      "Requires evidence and an owner for the claim or moves it to never-say",
+      "Flags legal review for superlatives"
+    ]
+  }
+]

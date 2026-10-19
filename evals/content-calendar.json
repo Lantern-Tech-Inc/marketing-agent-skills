@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "content-calendar"
+    ],
+    "query": "Build a Q1 content calendar for our blog; we have one writer and an editor.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for goals, real capacity in hours and review times",
+      "Plans to about 80% of capacity and includes refresh and distribution slots",
+      "Each item has owner, reviewer, brief, goal, query type and dates scheduled backwards"
+    ]
+  },
+  {
+    "skills": [
+      "content-calendar"
+    ],
+    "query": "We want to publish 5 AI-written posts a day to grow traffic fast.",
+    "files": [],
+    "expected_behavior": [
+      "Advises against scaled low-value publishing citing Google scaled content abuse policy",
+      "Recommends a capacity-based plan prioritizing first-hand value"
+    ]
+  },
+  {
+    "skills": [
+      "content-calendar"
+    ],
+    "query": "Can we send our newsletter daily instead of weekly?",
+    "files": [],
+    "expected_behavior": [
+      "Notes Gmail sender requirements (authentication, one-click unsubscribe for bulk senders, spam rate below 0.1% and never 0.3%)",
+      "Recommends testing frequency while monitoring complaint and unsubscribe rates"
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "internal-linking"
+    ],
+    "query": "Create an internal link plan for our new pillar on real estate lead generation.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for a crawl export or site access and the list of related pages",
+      "Produces placements with source URL, sentence, descriptive anchor and canonical target",
+      "Links spokes to the pillar and pillar to spokes, capping new links per source page"
+    ]
+  },
+  {
+    "skills": [
+      "internal-linking"
+    ],
+    "query": "Add our \"best CRM\" keyword as anchor text in the footer of every page.",
+    "files": [],
+    "expected_behavior": [
+      "Advises against sitewide exact-match footer links as the main fix",
+      "Recommends varied, descriptive, in-context body links"
+    ]
+  },
+  {
+    "skills": [
+      "internal-linking"
+    ],
+    "query": "Our product pages use JavaScript onclick buttons for navigation; is that fine for SEO?",
+    "files": [],
+    "expected_behavior": [
+      "Explains Google reliably follows only <a> elements with href",
+      "Recommends crawlable <a href> links to canonical URLs"
+    ]
+  }
+]
