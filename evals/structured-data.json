@@ -1,0 +1,37 @@
+[
+  {
+    "skills": [
+      "structured-data"
+    ],
+    "query": "Add FAQPage and HowTo schema to our SaaS blog post so we get rich results.",
+    "files": [],
+    "expected_behavior": [
+      "Explains HowTo and FAQ rich results are retired and will not be shown",
+      "Does not promise rich results; recommends only markup that matches visible content",
+      "Suggests appropriate supported types (e.g. Article, BreadcrumbList, Organization) instead"
+    ]
+  },
+  {
+    "skills": [
+      "structured-data"
+    ],
+    "query": "Write Product schema with 5-star aggregateRating for our pricing page; we have no reviews on the page.",
+    "files": [],
+    "expected_behavior": [
+      "Refuses to mark up ratings that are not visible on the page or are self-serving",
+      "Explains review snippet and structured data policies"
+    ]
+  },
+  {
+    "skills": [
+      "structured-data"
+    ],
+    "query": "Generate JSON-LD for our company homepage: Lantern, asklantern.com, logo URL provided.",
+    "files": [],
+    "expected_behavior": [
+      "Produces valid Organization JSON-LD (with WebSite where relevant) using an @graph and stable @id values",
+      "Uses only facts provided or marks placeholders",
+      "Lists validation steps with Rich Results Test and Schema Markup Validator plus Search Console monitoring"
+    ]
+  }
+]

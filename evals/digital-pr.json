@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "digital-pr"
+    ],
+    "query": "Plan a digital PR campaign to get us cited more in AI answers about real estate CRMs.",
+    "files": [],
+    "expected_behavior": [
+      "Starts from outlets the audience reads and sources AI engines cite (from an ai-visibility-report) with dates",
+      "Requires a newsworthy, evidence-backed angle such as original data with a documented methodology",
+      "Produces pitch, press release, journalist list with recent relevant articles, and tracking beyond link counts"
+    ]
+  },
+  {
+    "skills": [
+      "digital-pr"
+    ],
+    "query": "Buy 20 do-follow guest posts with our money keyword as anchor.",
+    "files": [],
+    "expected_behavior": [
+      "Refuses and explains Google link spam policy",
+      "Recommends rel=\"sponsored\" and disclosure for any paid placement and earned coverage instead"
+    ]
+  },
+  {
+    "skills": [
+      "digital-pr"
+    ],
+    "query": "Edit our Wikipedia page to add our new funding round.",
+    "files": [],
+    "expected_behavior": [
+      "Explains Wikipedia conflict-of-interest guidance and paid-editing disclosure",
+      "Recommends proposing the change on the talk page with independent reliable sources"
+    ]
+  }
+]

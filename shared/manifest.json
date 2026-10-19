@@ -1,14 +1,24 @@
 {
   "description": "Canonical shared files copied into each skill by scripts/sync-shared.mjs. Edit files in shared/, never the copies inside skills/.",
   "skills": {
+    "ai-visibility-report": ["references/ai-visibility-method.md", "references/evidence-standards.md", "references/query-types.md"],
+    "brand-voice": ["references/writing-and-titling.md", "references/evidence-standards.md"],
+    "comparison-page": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
     "competitor-audit": ["references/ai-visibility-method.md", "references/evidence-standards.md", "references/query-types.md"],
     "content": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
     "content-brief": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md"],
+    "content-calendar": ["references/query-types.md", "references/evidence-standards.md"],
+    "content-refresh": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
+    "content-repurposing": ["references/writing-and-titling.md", "references/evidence-standards.md"],
+    "digital-pr": ["references/evidence-standards.md", "references/ai-visibility-method.md"],
     "faq-generator": ["references/writing-and-titling.md", "references/evidence-standards.md"],
     "industry-content-production": ["references/evidence-standards.md"],
+    "internal-linking": ["references/query-types.md", "references/evidence-standards.md"],
     "keyword-research": ["references/query-types.md", "references/evidence-standards.md", "references/ai-visibility-method.md"],
+    "landing-page-copy": ["references/writing-and-titling.md", "references/evidence-standards.md"],
     "pillar-article": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
     "seo": ["references/evidence-standards.md", "references/query-types.md"],
+    "structured-data": ["references/evidence-standards.md"],
     "trust-qa": ["references/evidence-standards.md"]
   }
 }

@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "content-repurposing"
+    ],
+    "query": "Turn our State of Real Estate Tech report into LinkedIn, X, newsletter and short video content.",
+    "files": [],
+    "expected_behavior": [
+      "Extracts and ranks key ideas with their sources from the report",
+      "Writes native derivatives per channel with one idea each and notes to verify current platform limits",
+      "Includes captions, alt text, UTMs and a posting sequence"
+    ]
+  },
+  {
+    "skills": [
+      "content-repurposing"
+    ],
+    "query": "Republish our full blog post on 5 partner sites and on Medium.",
+    "files": [],
+    "expected_behavior": [
+      "Recommends publishing on our site first and having partners noindex their copies rather than relying on cross-domain canonicals",
+      "Suggests adapted summaries with links for Medium or LinkedIn articles"
+    ]
+  },
+  {
+    "skills": [
+      "content-repurposing"
+    ],
+    "query": "Make 30 versions of our article for different cities with only the city name changed.",
+    "files": [],
+    "expected_behavior": [
+      "Declines as scaled content abuse",
+      "Suggests genuinely local content only where there is unique local value"
+    ]
+  }
+]
