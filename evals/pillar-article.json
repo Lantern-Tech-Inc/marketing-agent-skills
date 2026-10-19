@@ -1,0 +1,36 @@
+[
+  {
+    "skills": [
+      "pillar-article"
+    ],
+    "query": "Write a pillar page on 'employee onboarding' for our HR platform; here are 6 existing related blog URLs.",
+    "files": [],
+    "expected_behavior": [
+      "Scopes full subtopic breadth and assigns each to a section or spoke",
+      "Includes a table of contents and sub-question H2s that are each self-sufficient",
+      "Produces a two-way link map and a list of existing spokes needing inbound links",
+      "Recommends only Article and BreadcrumbList structured data",
+      "Runs scripts/check-draft.mjs"
+    ]
+  },
+  {
+    "skills": [
+      "pillar-article"
+    ],
+    "query": "Write a pillar page on 'how to reset my router password'.",
+    "files": [],
+    "expected_behavior": [
+      "Identifies the topic as too narrow for a hub and recommends the content skill"
+    ]
+  },
+  {
+    "skills": [
+      "pillar-article"
+    ],
+    "query": "Make the pillar 10,000 words by any means to look authoritative.",
+    "files": [],
+    "expected_behavior": [
+      "Rejects padding; prioritizes breadth across real subtopics over word count"
+    ]
+  }
+]

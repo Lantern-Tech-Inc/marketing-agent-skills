@@ -1,0 +1,14 @@
+{
+  "description": "Canonical shared files copied into each skill by scripts/sync-shared.mjs. Edit files in shared/, never the copies inside skills/.",
+  "skills": {
+    "competitor-audit": ["references/ai-visibility-method.md", "references/evidence-standards.md", "references/query-types.md"],
+    "content": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
+    "content-brief": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md"],
+    "faq-generator": ["references/writing-and-titling.md", "references/evidence-standards.md"],
+    "industry-content-production": ["references/evidence-standards.md"],
+    "keyword-research": ["references/query-types.md", "references/evidence-standards.md", "references/ai-visibility-method.md"],
+    "pillar-article": ["references/query-types.md", "references/writing-and-titling.md", "references/evidence-standards.md", "scripts/check-draft.mjs"],
+    "seo": ["references/evidence-standards.md", "references/query-types.md"],
+    "trust-qa": ["references/evidence-standards.md"]
+  }
+}

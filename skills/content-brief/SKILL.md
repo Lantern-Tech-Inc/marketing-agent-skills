@@ -1,78 +1,141 @@
 ---
 name: content-brief
-description: "Turn a topic or keyword into a research-backed execution brief with audience, intent, competitive context, structure, and sources. Use before drafting SEO, GEO, AEO, or editorial content."
+description: "Turns a topic or keyword into a research-backed execution brief that decides audience, intent, scope, angle, outline with per-section formats and evidence requirements, FAQ, and internal links. Use before drafting SEO, GEO, AEO, or editorial content, or when a writer needs a brief."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Content Brief Agent Skill - Lantern
+# Content Brief
 
-Purpose: turn a topic or keyword into a structured, research backed brief that the Content Agent or Pillar Article Agent can execute against directly, with no further guessing about audience, format, or competitive context. This agent does the thinking a writer would otherwise have to do before typing a single word, so the production agents can move straight to writing.
+Purpose: produce a decision document that the `content` or `pillar-article` skill can execute with no further guessing. A brief is not a summary of the topic. It answers every open question about what the page should be: who it is for, what it must cover, what it must prove, what it should look like, and what it links to.
 
-A brief is not a summary of the topic. It is a decision document. Every open question about what this page should be (who it is for, what it must cover, what it should look like, what it should link to) needs to be answered here, not left for the writer to figure out mid draft.
+Shared rules:
 
-## Phase 1: Topic intake and classification
+- [references/query-types.md](references/query-types.md) covers classification, title patterns and funnel stage.
+- [references/writing-and-titling.md](references/writing-and-titling.md) covers the writing rules the draft will follow.
+- [references/evidence-standards.md](references/evidence-standards.md) covers sources and confidence.
 
-Classify the query type first, using the same classification as the Content Skill: informational or FAQ, comparison, cost or pricing, process or how to, seasonal or temporal, or listicle. This single decision shapes almost everything else in the brief.
+## When to use this skill
 
-State plainly what the page needs to be about and what it explicitly should not try to cover, since scope creep in a brief produces an unfocused draft.
+Use when the user wants a brief, outline, or plan for a page before writing, or when a writer or another skill needs one.
 
-## Phase 2: Research and competitive context
+Do not use when:
 
-Pull current live search results for the target query, or reuse existing GEO Agent or Competitor Audit Agent findings if they already exist for this topic. Identify what format is currently winning, what the strongest competing pages do well structurally, and what specific angle or whitespace this brief should claim that competitors have not.
+- The user wants the finished article now. Use `content`, which can build its own outline.
+- The topic needs a hub-and-spoke plan. Use `pillar-article`, which includes spoke planning.
+- The user wants a full multi-asset industry package. Use `industry-content-production`.
 
-Note the citation sources currently winning this topic if the GEO Agent has already surfaced them, since the brief should explicitly instruct the writer to match or exceed whatever made those sources citable.
+## Required inputs
 
-## Phase 3: Audience and intent definition
+```yaml
+target_query: ""
+brand:
+  name: ""
+  website: ""
+  offer: ""
+market:
+  country: ""
+  language: ""
+voice_sample: ""           # optional: URL or text of existing brand copy
+existing_pages: []         # optional
+prior_findings: ""         # optional: competitor-audit / keyword-research output
+first_hand_assets: []      # optional: data, case studies, experts the brand can contribute
+```
 
-State who is actually searching this, in concrete terms rather than a generic persona label. Note what they already know coming in and what they are missing, since a page written for someone comparing options reads differently than one written for someone who has never heard of the category.
+## Workflow
 
-State what the reader should be able to do or decide after reading the page. If this cannot be stated in one sentence, the topic is probably too broad for a single brief and should be split.
+```text
+- [ ] 1. Query type, funnel stage, scope (is / is not) stated
+- [ ] 2. Live results + prior findings reviewed; whitespace angle chosen
+- [ ] 3. Audience, prior knowledge, and reader outcome stated
+- [ ] 4. Voice reference identified
+- [ ] 5. Outline with formats, depth, and evidence required per section
+- [ ] 6. FAQ, internal links, title options, and CTA planned
+- [ ] 7. Brief assembled; open questions listed
+```
 
-## Phase 4: Tone and voice guidance
+1. **Classify.**
+   - Assign the query type and funnel stage using [references/query-types.md](references/query-types.md).
+   - State in one sentence what the page is, and in one sentence what it is not. Scope creep in a brief produces an unfocused draft.
+2. **Research.**
+   - Review live results for the exact query, or reuse `competitor-audit` / `keyword-research` findings, with retrieval dates.
+   - Record which format is winning, what the strongest pages do structurally, and which sources AI engines cite for this topic, if known.
+   - Choose a whitespace angle the brand can credibly own, preferably based on first-hand or non-commodity material. If you have no live access, label the research as `assumption`.
+3. **Audience and intent.**
+   - Describe the actual searcher in concrete terms: what they already know and what they are missing.
+   - State in one sentence what the reader should be able to do or decide after reading. If that takes more than one sentence, split the topic.
+4. **Voice.** Point to a specific brand voice sample provided by the user, or to existing on-site copy by URL. If neither exists, list that as an open question. Do not invent a generic tone label.
+5. **Outline.**
+   - Planned H1, matching the query near verbatim.
+   - Planned H2s written as real sub-questions, each with:
+     - a format (table, steps, list, grouped by period, prose)
+     - a depth guide (approximate words)
+     - the evidence required, such as "current price range from 2+ provider pages" or "first-hand quote from brand expert"
+   - Evidence requirements prevent writers from filling gaps with invention.
+6. **Supporting plan.**
+   - 3–6 FAQ questions drawn from adjacent long-tail variants the body will not answer.
+   - Internal links out, and links back from a pillar page if one exists.
+   - 2–3 title tag options following the pattern for the query type.
+   - One CTA that matches the funnel stage.
+7. **Assemble** using the template. List open questions the user must answer before drafting.
 
-Specify the voice the draft should match, referencing the brand's actual existing copy or stated preferences rather than a generic tone label like professional or friendly. If a copywriting reference or voice sample exists for the brand, point to it directly rather than restating tone rules from scratch in every brief.
+## Output template
 
-## Phase 5: Outline construction
+```markdown
+# Brief: <target query>
 
-Build the actual section by section outline the writer will follow.
+| Field | Value |
+|---|---|
+| Query type / funnel stage | |
+| Scope — is | |
+| Scope — is not | |
+| Audience & prior knowledge | |
+| Reader outcome (one sentence) | |
+| Angle / whitespace | |
+| Voice reference | |
+| CTA | |
 
-Planned H1, matching the query near verbatim.
+## Competitive context (accessed <date>)
+| URL | Format | Strength | Gap |
 
-Planned H2s, each written as a real sub-question the audience would ask, with the content format assigned per section (table, steps, list, period grouped, and so on) matching the query type from Phase 1.
+## Outline
+| # | H2 (sub-question) | Format | ~Words | Evidence required | Source hints |
 
-A rough word count or depth guide per section, so the writer knows where to spend length and where to stay brief.
+## FAQ
+## Internal links (out / in)
+## Title options
+## Sources
+| Claim/area | URL | Accessed | Confidence |
+## Open questions for the user
+```
 
-A planned FAQ list of three to six questions pulled from adjacent long tail variants the main body will not directly answer.
+## Approval gates
 
-A planned internal link list: specific existing pages the draft should link to, and any pillar page it should link back up to if one exists.
+Get user confirmation of scope, angle and CTA before handing the brief to a writing skill when the topic is commercially sensitive. That includes pricing, competitor comparisons, and regulated topics.
 
-## Output
+## Stop conditions
 
-A single structured brief containing: query type, scope statement, audience and intent, competitive context and whitespace angle, tone and voice reference, full section by section outline with assigned formats, planned FAQ questions, and planned internal links. This hands directly to Content Agent or Pillar Article Agent with no further research step needed on their end.
+- The target query has mixed or unclear intent that research cannot resolve. Present the options instead.
+- The brand cannot credibly support the only viable angle, for example because it has no product or expertise in the topic.
 
 ## Anti-patterns
 
-Producing a brief that only summarizes the topic instead of making the actual structural and audience decisions the writer needs.
+- Summarizing the topic instead of making the decisions.
+- Briefing from assumption without reviewing live results, or without labeling the gap.
+- Leaving formats or evidence requirements unassigned per section.
+- Generic personas that could apply to any query.
+- Covering two topics in one brief.
+- Planning FAQPage or HowTo schema for rich-result gains. Those rich results are gone.
 
-Skipping live research and briefing from general assumptions about what the page should cover.
+## Completion checklist
 
-Leaving the content format unassigned per section, resulting in a cost topic that gets briefed as loose prose instead of an actual cost table.
-
-Writing a generic audience description that could apply to almost any topic, rather than the specific person actually searching this exact query.
-
-Letting scope creep into the brief so the resulting draft tries to cover two different topics at once.
-
-## Quick checklist
-
-Query type classified and stated explicitly.
-
-Live search results reviewed, or existing GEO or Competitor Audit findings reused.
-
-Scope stated as one clear sentence of what the page is and is not.
-
-Audience and intent stated concretely, with a clear statement of what the reader should be able to do after reading.
-
-Tone and voice reference pointed to specifically, not restated generically.
-
-Full outline built with real sub-question H2s and assigned content formats per section.
-
-FAQ questions and internal link targets both planned as part of the brief, not left for the writer to decide.
+- [ ] Query type, funnel stage and is/is-not scope stated
+- [ ] Research dated, or labeled `assumption`. Angle justified
+- [ ] Concrete audience and a one-sentence reader outcome
+- [ ] Specific voice reference, or an open question
+- [ ] Every H2 has a format, depth and evidence requirement
+- [ ] FAQ, internal links, title options and CTA planned
+- [ ] Open questions listed

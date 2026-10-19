@@ -1,80 +1,156 @@
 ---
 name: content
-description: "Research, structure, and write a publish-ready SEO and AI-search article from a topic or keyword. Use for evidence-backed blog production, search content, article drafting, and content optimization."
+description: "Researches, structures, and writes a publish-ready SEO and AI-search article from a keyword or topic, including title tag, meta description, internal links, FAQ, and a list of claims needing verification. Use for blog production, article drafting, search content, and rewriting or optimizing an existing article."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Content Agent Skill - Lantern
+# Content
 
-Purpose: take a keyword or topic all the way through research, structure, and writing to a publish ready SEO blog draft. This agent is the execution engine that applies two existing references, the SEO Content Skill and the Blog Titling Skill, inside one end to end workflow. Where those two documents are the rulebook, this agent is the process that runs the rulebook against a real topic and produces a finished draft, not just an outline.
+Purpose: take a keyword or topic through research, structure, and writing to a publish-ready draft, not just an outline. The rules live in [references/query-types.md](references/query-types.md) and [references/writing-and-titling.md](references/writing-and-titling.md). This skill is the process that applies them to a real topic. Evidence rules are in [references/evidence-standards.md](references/evidence-standards.md).
 
-## Phase 1: Intake and research
+## When to use this skill
 
-Take the assigned keyword or topic and classify its query type first, using the same classification as the Content Skill: informational or FAQ, comparison, cost or pricing, process or how to, seasonal or temporal, or listicle. This decision drives every structural choice downstream, so do not skip it or guess.
+Use when the user wants a finished article, or an existing article rewritten or optimized, for a single query or topic.
 
-Pull the current live search results for the actual target query. Identify what is currently ranking, what format is winning (table, steps, list, period grouped sections), and what angle or whitespace is missing that this draft can own. If a GEO Agent or Competitor Audit Agent output already exists for this topic, use its citation source findings directly instead of re researching from scratch.
+Do not use when:
 
-## Phase 2: Structure build
+- The user only wants a plan. Use `content-brief`.
+- The topic is broad enough to need a hub with spokes. Use `pillar-article`.
+- The user wants a multi-asset, industry-specific package (pillar, supporting articles, social, email). Use `industry-content-production`.
+- The user only wants a standalone FAQ set. Use `faq-generator`.
 
-Build the outline per the Content Skill's structure rules before writing any prose.
+## Required inputs
 
-H1 matching the query near verbatim.
+```yaml
+target_query: ""          # keyword, prompt, or topic
+brand:
+  name: ""
+  website: ""
+  offer: ""               # what the CTA should lead to
+market:
+  country: ""
+  language: ""
+brief: ""                  # optional: content-brief output; if present, follow it
+voice_sample: ""           # optional: URL or text of existing brand copy
+existing_pages: []         # optional: URLs available for internal links
+prior_findings: ""         # optional: competitor-audit / keyword-research output
+sources: []                # optional: user-supplied facts, data, quotes
+```
 
-A table of contents plan if the piece will run long enough to need one.
+If `target_query` or `brand` is missing, ask. If `brief` exists, skip steps 1–2 except to check that the brief is still current.
 
-H2s written as the real sub-questions this topic should answer, not generic section labels, with the content format for each section matched to the query type identified in Phase 1.
+## Workflow
 
-A planned FAQ block of three to six questions drawn from adjacent long tail variants the main body will not explicitly cover.
+```text
+- [ ] 1. Query type, funnel stage, and scope classified
+- [ ] 2. Live results and prior findings reviewed; angle chosen
+- [ ] 3. Outline built (H1, sub-question H2s, formats, FAQ, link map)
+- [ ] 4. Title tag and meta written
+- [ ] 5. Draft written; every factual claim sourced or flagged
+- [ ] 6. scripts/check-draft.mjs passes; manual checklist passes
+- [ ] 7. Output assembled with source list and flagged claims
+```
 
-A planned internal link map: which existing pages this draft should link out to, and which sibling or pillar pages it should be linked from once published.
+1. **Classify.**
+   - Assign the query type and funnel stage using [references/query-types.md](references/query-types.md). This drives every structural choice. Do not guess. If the query is genuinely mixed, pick the dominant intent and say why.
+   - Write one sentence stating what the page covers and one stating what it does not.
+2. **Research.**
+   - Review the current live results for the exact target query: which formats win, what the strongest pages do well, and what is missing.
+   - Reuse existing `competitor-audit` or `keyword-research` findings instead of re-researching. Record retrieval dates.
+   - Choose an angle based on first-hand or non-commodity value the brand can actually provide, such as data, experience, or specifics. If no live search access is available, say so and label the research as `assumption`.
+3. **Outline.**
+   - H1 that matches the query near verbatim.
+   - H2s written as real sub-questions, each assigned a format that fits the query type (table, steps, list, grouped by period).
+   - A table of contents if the piece is long.
+   - A FAQ block of 3–6 adjacent long-tail questions the body does not answer.
+   - An internal link map: pages to link out to, and pages that should link back here.
+4. **Title and meta.**
+   - Apply the title pattern for the query type from [references/query-types.md](references/query-types.md).
+   - The title tag should be about 50–60 characters and aligned with the H1 in substance.
+   - The meta description should be about 155 characters or fewer, preview the specific answer, and not repeat the title.
+5. **Draft.** Follow [references/writing-and-titling.md](references/writing-and-titling.md):
+   - Open with the answer. Keep paragraphs to 2–4 sentences.
+   - Use specific numbers and named entities instead of vague claims. Use semantic variants naturally, with no keyword quota.
+   - Place internal links where the entity is mentioned, not grouped at the end.
+   - End with one CTA that matches the brand's real funnel.
+   - **Every statistic, price, date, or named fact must trace to a source in the source list** (see [references/evidence-standards.md](references/evidence-standards.md)). If you cannot source a claim, mark it inline as `[NEEDS SOURCE]`. Never invent a number to fill a gap.
+6. **Check.**
+   - Save the draft with `title` and `meta_description` frontmatter and run:
 
-## Phase 3: Title and meta production
+     ```bash
+     node scripts/check-draft.mjs draft.md
+     ```
 
-Apply the Blog Titling Skill directly to produce the title tag and H1. Confirm the title pattern matches the query type from Phase 1, using the same mapping the Titling Skill defines (cost query gets a cost pattern title, comparison query gets a versus pattern title, and so on). Produce a meta description under roughly 155 characters that previews the specific answer without duplicating the title verbatim.
+   - Fix every `fail`. Review each `warn`.
+   - Then confirm the manual items the script cannot judge:
+     - each H2 answers a real sub-question
+     - the format matches the query type
+     - no keyword stuffing
+     - the CTA matches the funnel
+   - Repeat until both pass.
+7. **Output** using the template below.
+   - If any `[NEEDS SOURCE]` markers remain, the status is `needs_trust_qa`, not `publish_ready`.
+   - Hand off to `trust-qa`.
 
-## Phase 4: Full draft writing
+## Output template
 
-Write the draft against the outline from Phase 2, applying the Content Skill's prose rules throughout: answer first opening paragraph, two to four sentence paragraphs, natural transition words, three to six bolded semantic keyword variants placed naturally rather than stuffed, specific numbers and named entities in place of vague claims, and the FAQ block written as real question and answer pairs.
+```markdown
+---
+title: "<title tag>"
+meta_description: "<meta>"
+status: publish_ready | needs_trust_qa
+query_type: <type>
+funnel_stage: <stage>
+---
 
-Insert the internal links planned in Phase 2 at the natural point in the prose where that entity or topic is mentioned, not bunched at the end.
+# <H1>
+<body … FAQ … CTA>
 
-End on the single CTA appropriate to the brand's actual funnel, matching the Content Skill's CTA placement rule.
+---
+## Internal link map
+| Anchor | Target URL | Direction (out/in) |
 
-## Phase 5: Self QA before output
+## Sources
+| # | Claim | Source URL | Accessed | Confidence |
 
-Run the draft against both the Content Skill checklist and the Titling Skill checklist before marking it publish ready. Specifically confirm: no keyword stuffing, no paragraph over four sentences, every H2 maps to a real sub-question, FAQ block present, internal links present and natural, title and H1 aligned in substance, and one CTA at the end matched to the real funnel.
+## Flagged claims for trust-qa
+| Claim | Reason (unsourced / outdated / conflicting) |
 
-Flag any statistic, claim, or number in the draft that was not sourced from verified research for a Trust QA Agent pass before publication. Do not invent a number to fill a gap. Mark it clearly instead.
+## Check results
+<check-draft.mjs JSON summary>
+```
 
-## Output
+## Approval gates
 
-A publish ready draft containing: title tag, meta description, full H1 through FAQ body copy, the internal link map used, and any flagged claims awaiting Trust QA verification.
+- Do not publish or push to a CMS. Deliver the draft only, unless the user explicitly asks and grants access.
+- Get approval before naming competitors negatively, quoting real people, or making legal, medical, or financial claims.
+
+## Stop conditions
+
+- The query's intent cannot be determined and the user is unavailable to clarify.
+- The topic requires regulated advice (medical, legal, financial) and there is no qualified source or reviewer.
+- The core claim of the article cannot be sourced. Report this instead of drafting around it.
 
 ## Anti-patterns
 
-Writing from general knowledge of the topic without pulling current live search results first. Rankings and what is currently winning shift, and a draft written from assumption rather than current research underperforms even when well written.
+- Writing from general knowledge without checking current results.
+- Answering a cost query in loose prose instead of a cost table, or making any other format mismatch.
+- Forcing a fixed count of bolded keywords, or stuffing variants.
+- Inventing statistics, quotes, or sources to make prose feel concrete.
+- Adding FAQPage or HowTo schema for rich results. Neither shows as a rich result any more (see [references/evidence-standards.md](references/evidence-standards.md)).
+- Rewriting content "for AI" with artificial chunking or `llms.txt`-style tricks. Google says these are unnecessary.
+- Skipping the internal link map and leaving the page orphaned.
 
-Producing an outline without assigning a content format per query type, resulting in a cost query answered in loose prose instead of an actual cost table.
+## Completion checklist
 
-Skipping the internal link map and leaving the draft an isolated page with no connection to the rest of the site's content silo.
-
-Inventing a statistic or specific number to make a paragraph feel more concrete. Flag the gap for Trust QA or for the user to supply, rather than fabricating it.
-
-Treating the Content Skill and Titling Skill as optional style notes rather than mandatory structural requirements for every draft.
-
-## Quick checklist
-
-Query type classified before outlining.
-
-Current live SERP research pulled, or existing GEO or Competitor Audit findings reused if available.
-
-Outline built with real sub-question H2s, matched content format, planned FAQ block, and planned internal link map.
-
-Title and meta produced per the Titling Skill and matched to the query type pattern.
-
-Draft written with answer first opening, short paragraphs, natural semantic variants, specific numbers, and internal links placed in context.
-
-Single CTA at the end, matched to the real funnel.
-
-Full draft checked against both the Content Skill and Titling Skill checklists before output.
-
-Any unsourced claim flagged for Trust QA rather than fabricated.
+- [ ] Query type, funnel stage and scope stated
+- [ ] Live results reviewed (or labeled `assumption`). Angle based on real value the brand provides
+- [ ] Outline has sub-question H2s, assigned formats, FAQ and link map
+- [ ] Title and meta follow the rules. H1 aligned
+- [ ] Every factual claim is sourced or marked `[NEEDS SOURCE]`
+- [ ] `check-draft.mjs` passes with no `fail`. Manual checks done
+- [ ] Status set honestly. Flagged claims handed to `trust-qa`

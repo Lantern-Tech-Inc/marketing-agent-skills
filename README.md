@@ -36,11 +36,28 @@ Example:
 cp -R skills/competitor-audit /path/to/project/.github/skills/
 ```
 
+Each skill folder is fully self-contained: shared references (query types, writing rules, evidence standards, AI-visibility method) and the `scripts/check-draft.mjs` draft checker are copied into every skill that uses them, so a single copied folder works on its own.
+
 Agents discover skills from the YAML `name` and `description` in each `SKILL.md`. Review a skill before use and grant only the tools and data access required for its workflow.
 
 ## Agent-readable registry
 
 [`registry.json`](./registry.json) provides stable package paths and metadata. Lantern also publishes a web registry at [asklantern.com/skills/index.json](https://www.asklantern.com/skills/index.json).
+
+## Lifecycle status
+
+Each skill declares `metadata.version` (semver) and `metadata.status` in its frontmatter, mirrored in `registry.json`:
+
+| Status | Meaning |
+| --- | --- |
+| `proposed` | Draft; not yet evaluated |
+| `beta` | Usable; evals exist, still being refined against real runs |
+| `stable` | Evals pass consistently across supported agents |
+| `deprecated` | Superseded; kept for compatibility |
+
+## Evaluations
+
+[`evals/`](./evals) holds behavioural test cases for every skill in the format `{ skills, query, files, expected_behavior }`, including cases where the skill should stop or route elsewhere. Run each query with the skill installed and check the response against `expected_behavior`.
 
 ## Contributing
 

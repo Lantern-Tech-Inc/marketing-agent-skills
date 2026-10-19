@@ -1,70 +1,120 @@
 ---
 name: trust-qa
-description: "Fact-check content claims, verify statistics and sources, and produce a scored trust report before publication. Use for editorial QA, citation verification, factual review, and hallucination prevention."
+description: "Fact-checks every checkable claim in a draft against original sources, verifies quotes, attributions, statistics context, and links, then issues a severity-rated trust report with a publish verdict (pass, needs_review, block). Use for editorial QA, citation verification, fact-checking, hallucination prevention, and pre-publication review."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Trust QA Agent Skill - Lantern
+# Trust QA
 
-Purpose: fact check content claims, verify statistics and attributions, and produce a scored trust report before a piece is published. This agent is the honesty gate for everything the Content Agent and Pillar Article Agent produce. A page that reads well but contains a fabricated statistic or a misattributed quote is a liability, not an asset, especially since AI engines increasingly cross check claims before citing a source, and a caught fabrication damages the whole domain's trust, not just one page.
+Purpose: act as the honesty gate before publication for drafts from `content`, `pillar-article`, `faq-generator`, `industry-content-production`, or a human writer. A page that reads well but contains a fabricated statistic or a misattributed quote is a liability. This skill checks whether what the draft asserts is true and properly sourced, and reports exactly where it is not. It does not rewrite the draft's voice. Source hierarchy and confidence labels are in [references/evidence-standards.md](references/evidence-standards.md).
 
-This agent does not soften or rewrite the draft's voice. It checks whether what the draft asserts is actually true and properly sourced, and reports exactly where it is not.
+## When to use this skill
 
-## Phase 1: Claim extraction
+Use before publishing any content with factual claims, when a draft contains `[NEEDS SOURCE]` markers, or when the user asks to fact-check or verify sources.
 
-Read the draft and pull out every checkable factual assertion: statistics, dates, prices, named results, named customers or sources, direct quotes, and specific comparative claims (faster than, cheaper than, more than). Separate these from opinion, brand voice, and subjective framing, which are not fact checkable and should not be flagged as unverifiable simply for being subjective.
+Do not use when:
 
-List each claim individually rather than checking the piece as a whole, since a single paragraph can contain one verified fact and one fabricated one sitting side by side.
+- The user wants style or voice edits only. Edit directly; no trust review is needed.
+- The user wants to verify AI-engine visibility claims about a brand. Use `competitor-audit`.
 
-## Phase 2: Verification
+## Required inputs
 
-For each claim, check it against an authoritative or original source, not a secondary source repeating the same number without attribution. Note the source used for verification directly in the report so a human reviewer can double check the check itself.
+```yaml
+draft: ""                  # text, file, or URL
+source_list: []            # optional: sources the writer used
+brand_facts: []            # optional: authoritative brand pages/docs for brand claims
+publish_context: ""        # e.g. blog, regulated industry, press release
+```
 
-Classify each claim as one of: verified against a credible source, plausible but unverifiable with available sources, outdated (was once true, source shows it has since changed), or contradicted by available sources. Do not default to verified simply because a claim sounds reasonable or matches general expectations.
+## Workflow
 
-## Phase 3: Attribution and quotation check
+```text
+- [ ] 1. Every checkable claim extracted individually
+- [ ] 2. Each claim traced to an original/authoritative source
+- [ ] 3. Each claim classified (verified/unverifiable/outdated/contradicted)
+- [ ] 4. Quotes, attributions, statistic context, and links checked
+- [ ] 5. Severity assigned; verdict computed by rule
+- [ ] 6. Specific fix recommended per flagged claim
+```
 
-For any quote or named attribution in the draft, confirm the quote is accurately worded and correctly attributed to the actual speaker or source, not paraphrased and presented as a direct quote. Flag any quote that cannot be traced to a real, findable source.
+1. **Extract.**
+   - List every checkable assertion individually: statistics, dates, prices, named results, named customers or sources, direct quotes, comparative claims ("faster than", "cheapest"), and legal, medical or financial statements.
+   - Include every `[NEEDS SOURCE]` marker.
+   - Exclude opinion, brand voice and subjective framing. They are not fact-checkable and should not be flagged as unverifiable.
+2. **Trace.**
+   - Check each claim against an original or authoritative source following the source hierarchy in [references/evidence-standards.md](references/evidence-standards.md).
+   - A secondary page repeating a number without citing anything is not verification. Follow it back to the origin.
+   - Record the URL and access date for every check.
+3. **Classify** each claim:
+   - `verified`: matches a credible original source.
+   - `unverifiable`: plausible, but no adequate source was found. This is not proof that it is false.
+   - `outdated`: was true, but the source now shows a change.
+   - `contradicted`: credible sources say otherwise.
 
-Confirm any cited statistic includes enough context to not be misleading on its own, for example a percentage without the base number it is calculated from, which can misrepresent the underlying reality even when the number itself is technically accurate.
+   Never default to `verified` because a claim sounds reasonable.
+4. **Attribution and context.**
+   - Quotes must be verbatim and attributed to the real speaker. Flag paraphrases presented as quotes.
+   - Statistics need their base, date and population. A percentage without its base can mislead even when it is accurate.
+   - Every cited link must resolve and support the specific claim.
+5. **Severity and verdict.**
+   - `critical`: a contradicted or fabricated claim, a misattributed or invented quote, an unverifiable claim that is central to the piece, or a risky regulated-topic claim.
+   - `major`: an outdated claim, missing statistic context, or a link that does not support the claim.
+   - `minor`: an unverifiable peripheral claim, or imprecise wording.
 
-## Phase 4: Scoring
+   Apply this verdict rule:
+   - **block** if any claim is `critical`
+   - **needs_review** if any claim is `major`, or if minor issues are more than 20% of claims
+   - **pass** otherwise
 
-Score the piece at two levels. Per claim, using the four category classification from Phase 2. And overall, as a simple proportion of claims verified versus flagged, so a reviewer can see at a glance whether a piece is mostly solid with one or two issues, or broadly unreliable and needing a substantial rewrite before publication.
+   Never let a high verified share mask a critical issue.
+6. **Fix.** For every flagged claim, recommend one specific action:
+   - cite a specific source (give the URL)
+   - soften the claim to what the evidence supports (give the wording)
+   - remove the claim
 
-Do not average away a single serious issue, such as a fabricated statistic or a misattributed quote, into a generally positive overall score. Flag serious issues prominently regardless of how the rest of the piece scores.
+## Output template
 
-## Phase 5: Output and recommendations
+```markdown
+# Trust report: <draft title> — <date>
 
-For every flagged claim, recommend a specific fix: add a citation to a specific source, soften the claim to what can actually be supported, or remove it entirely if no support exists. Do not simply mark a claim as a problem without stating what should happen to it next.
+**Verdict:** pass | needs_review | block
+**Summary:** <n> claims · <v> verified · <u> unverifiable · <o> outdated · <c> contradicted · verified share <v/n>%
 
-## Output structure
+## Critical issues (listed first, always)
+## Claims
+| # | Claim (quoted) | Location | Status | Severity | Source checked (URL, accessed) | Fix |
 
-A scored trust report listing every extracted claim, its verification status, the source used to check it (or the reason it could not be verified), and a specific recommended fix for anything not fully verified, plus an overall proportion score for the piece.
+## Links checked
+| URL | Resolves | Supports claim |
+```
+
+## Approval gates
+
+Do not edit the draft or the published page directly unless asked. Report only. A `block` verdict cannot be overridden by this skill. Only the user can choose to publish anyway.
+
+## Stop conditions
+
+- The draft cannot be accessed.
+- You have no web or source access. Report every claim as `unverifiable — no access`. Do not guess.
 
 ## Anti-patterns
 
-Rubber stamping a draft as verified without actually checking claims against original sources, just because the draft reads confidently.
+- Rubber-stamping a draft because it reads confidently.
+- Treating "no source found" as proof that a claim is false.
+- Flagging opinions as factual problems.
+- Averaging a fabrication into an acceptable overall score.
+- Verifying a claim against a page that just repeats it.
+- Skipping link resolution checks.
 
-Treating an inability to find a source as proof the claim is false, rather than correctly classifying it as unverifiable and recommending it be sourced or softened.
+## Completion checklist
 
-Flagging subjective or opinion based statements as factual problems when they are not fact checkable claims in the first place.
-
-Averaging a serious fabrication into a generally acceptable overall score instead of surfacing it prominently regardless of the rest of the piece.
-
-Checking a claim against a source that itself just repeats the number without an original citation, rather than tracing back to the actual origin of the figure.
-
-## Quick checklist
-
-Every checkable factual claim extracted individually, separated from opinion and brand voice.
-
-Each claim checked against an original or authoritative source, with that source noted in the report.
-
-Each claim classified as verified, plausible but unverifiable, outdated, or contradicted, not defaulted to verified without a real check.
-
-Quotes and attributions checked for accurate wording and correct sourcing, not paraphrase presented as direct quote.
-
-Statistics checked for missing context that could make them misleading even if technically accurate.
-
-Overall score calculated as a proportion, with serious individual issues flagged prominently rather than averaged away.
-
-Every flagged claim given a specific recommended fix: cite, soften, or remove.
+- [ ] Every checkable claim and every `[NEEDS SOURCE]` marker extracted individually
+- [ ] Each claim checked against an original source, with URL and access date
+- [ ] Classified honestly. Nothing defaulted to verified
+- [ ] Quotes verbatim and attributed. Statistic context and links checked
+- [ ] Severity assigned and verdict computed by the rule. Critical issues listed first
+- [ ] Every flagged claim has a specific fix

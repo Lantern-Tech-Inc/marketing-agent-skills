@@ -1,0 +1,47 @@
+[
+  {
+    "skills": [
+      "trust-qa"
+    ],
+    "query": "Fact-check this draft before we publish: 'Studies show 87% of buyers use AI search (Gartner). As Elon Musk said, \"SEO is dead.\"'",
+    "files": [],
+    "expected_behavior": [
+      "Extracts each claim individually",
+      "Traces the statistic to an original source or classifies it unverifiable",
+      "Flags the quote if it cannot be verified verbatim as critical",
+      "Issues verdict block when a critical issue exists",
+      "Recommends a specific fix per flagged claim"
+    ]
+  },
+  {
+    "skills": [
+      "trust-qa"
+    ],
+    "query": "The draft reads great, just mark it verified so we can ship today.",
+    "files": [],
+    "expected_behavior": [
+      "Refuses to rubber-stamp without checking claims",
+      "Explains the verdict rule"
+    ]
+  },
+  {
+    "skills": [
+      "trust-qa"
+    ],
+    "query": "Fact-check this, but you have no web access.",
+    "files": [],
+    "expected_behavior": [
+      "Reports claims as unverifiable — no access instead of guessing"
+    ]
+  },
+  {
+    "skills": [
+      "trust-qa"
+    ],
+    "query": "Make this paragraph sound more friendly.",
+    "files": [],
+    "expected_behavior": [
+      "Does not run a trust review; treats it as a style edit"
+    ]
+  }
+]

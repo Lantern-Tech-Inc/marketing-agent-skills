@@ -1,78 +1,149 @@
 ---
 name: pillar-article
-description: "Create a comprehensive long-form pillar article designed for topical authority and citation across many AI prompts. Use for content hubs, topic clusters, definitive guides, and entity authority."
+description: "Plans and writes a comprehensive hub (pillar) article that covers a broad topic's full subtopic breadth, links to spoke pages in both directions, and gives precise, sourced, citable answers section by section. Use for pillar pages, topic hubs, cornerstone content, entity authority, and topic clusters."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Pillar Article Agent Skill - Lantern
+# Pillar Article
 
-Purpose: create long form, comprehensive articles that establish entity authority on a broad topic and are built to be cited across many different AI prompts, not just one. A pillar article is the hub of a content silo. It should be the single page that, if someone asked an AI engine almost any reasonable question within its topic, could plausibly be the source cited back. Spoke pages produced by the Content Agent then go deep on the individual sub-questions the pillar can only summarize.
+Purpose: create the hub of a content silo, the single page that could plausibly be cited for almost any reasonable question within its topic. Spoke pages (written with `content`) go deep on individual sub-questions. The pillar differs from a standard article in scope and role, not just length. A long post without the hub-and-spoke link architecture has not done its job.
 
-The difference from a standard Content Agent draft is scope and role, not just length. A pillar page that is simply a longer blog post without the hub and spoke linking architecture has not done its job.
+Shared rules:
 
-## Phase 1: Topic and entity scoping
+- [references/query-types.md](references/query-types.md) covers classification and titles.
+- [references/writing-and-titling.md](references/writing-and-titling.md) covers writing rules.
+- [references/evidence-standards.md](references/evidence-standards.md) covers sourcing and current platform facts.
 
-Define the full breadth the pillar needs to cover to be genuinely comprehensive on its subject, not just the one query that inspired it. Pull this from three sources where available: keyword cluster research showing the full set of related queries, GEO Agent output showing which sub-topics currently have no strong citation source for anyone, and Competitor Audit output showing which sub-topics a competitor's own pillar-equivalent page covers.
+## When to use this skill
 
-List every subtopic the pillar must at least address. Each one becomes either a section within the pillar itself, if it is core enough to the topic to need visible coverage, or a linked-out spoke page if it deserves full standalone depth of its own.
+Use for pillar pages, hubs, cornerstone guides, or when a cluster map shows a topic broad enough for multiple spokes.
 
-## Phase 2: Structure
+Do not use when:
 
-Build a table of contents at the very top, since pillar length makes this a navigability requirement rather than an optional nicety.
+- The topic is a single focused query. Use `content`.
+- The user wants an industry-specific multi-asset package with social and email. Use `industry-content-production`.
 
-Each major subtopic gets its own H2, written the same way as the Content Skill specifies, as a real sub-question rather than a generic label. Under each H2, give enough standalone depth to actually answer that sub-question completely, then link out to the dedicated spoke page for anyone who wants the fuller treatment. The pillar should never make a reader feel like they have to leave to get a real answer to the section's core question, it should make them feel like they can go deeper if they want more.
+## Required inputs
 
-Do not let the pillar collapse into an unstructured wall of text just because it is long. The paragraph chunking, transition word, and one idea per paragraph rules from the Content Skill still apply within every section.
+```yaml
+topic: ""
+brand:
+  name: ""
+  website: ""
+  offer: ""
+market:
+  country: ""
+  language: ""
+existing_spokes: []         # URLs of existing related pages
+prior_findings:             # optional, reuse instead of re-researching
+  keyword_clusters: ""      # keyword-research output
+  competitor_audit: ""      # competitor-audit output
+voice_sample: ""
+sources: []
+```
 
-## Phase 3: Entity and authority signals
+## Workflow
 
-Use precise, checkable definitions early for any entity or concept central to the topic. A pillar page benefits disproportionately from being the place that states the plainest, most accurate definition of the core entity, since that is exactly the kind of sentence AI engines extract for definitional prompts.
+```text
+- [ ] 1. Full subtopic breadth scoped from clusters, gaps, competitors
+- [ ] 2. Each subtopic assigned: pillar section or spoke (existing/new)
+- [ ] 3. TOC + sub-question H2 outline built
+- [ ] 4. Title tag and meta written
+- [ ] 5. Draft written; each section answer-first and self-contained
+- [ ] 6. Definitions and claims sourced or flagged
+- [ ] 7. Two-way link map + spoke update list produced
+- [ ] 8. scripts/check-draft.mjs passes; manual checklist passes
+```
 
-Ensure comprehensive coverage is real, not simulated by length. A pillar that spends three paragraphs restating the same point to hit a word count is weaker than one that covers ten distinct subtopics concisely. Depth of coverage across the topic's real breadth is the actual authority signal, not raw word count.
+1. **Scope breadth.**
+   - Build the full subtopic list, not just the query that inspired the page.
+   - Use the clusters from `keyword-research`, the whitespace and gaps from `competitor-audit`, and what competitor hub pages cover. Note retrieval dates.
+2. **Assign.**
+   - A core subtopic becomes a pillar section.
+   - A subtopic that deserves standalone depth becomes a spoke. Link the existing page, or list a new spoke for `content-brief`.
+3. **Outline.**
+   - Put a table of contents at the top.
+   - Write each H2 as a real sub-question.
+   - Pick the format per section using [references/query-types.md](references/query-types.md).
+4. **Title and meta.**
+   - Follow the title rules in [references/query-types.md](references/query-types.md): a broad, definitive pattern, about 50–60 characters.
+   - Meta description of about 155 characters or fewer, not duplicating the title.
+5. **Draft.**
+   - Each section answers its sub-question completely enough on its own, then links to the spoke for depth. Readers should never have to leave to get the core answer.
+   - Apply [references/writing-and-titling.md](references/writing-and-titling.md) within every section: answer first, short paragraphs, one idea per paragraph.
+   - This structure is for readers and clarity. Do not chop content into artificial "AI chunks".
+6. **Definitions and evidence.**
+   - State precise, checkable definitions of central entities early.
+   - Source every statistic or factual claim, or mark it `[NEEDS SOURCE]` for `trust-qa`.
+   - Coverage is about breadth across real subtopics, not word count. Cut restatement.
+7. **Link architecture.**
+   - The pillar links out to every relevant spoke, using a labeled per-subtopic structure so new spokes can be added without a rewrite.
+   - List every existing spoke that needs a link back to the pillar, with suggested anchor text.
+   - Set a review date for the link section.
+8. **Check.**
+   - Run `node scripts/check-draft.mjs draft.md` and fix every `fail`.
+   - Then check manually: breadth, links in both directions, and section self-sufficiency.
 
-Flag where structured data (FAQ schema, how to schema, or article schema depending on the subtopics covered) applies, since a pillar page is often the strongest candidate on the site for structured data markup given how many distinct question types it answers in one place.
+**Structured data:** `Article` and `BreadcrumbList` are appropriate. Do not recommend FAQPage or HowTo markup for rich results; Google no longer shows either (see [references/evidence-standards.md](references/evidence-standards.md)). Markup must match visible content.
 
-## Phase 4: AI optimization pass
+## Output template
 
-Apply the same answer first and extractability rules from the Content Skill to every section individually, not just the page's opening. Because a pillar is meant to be citable for many different prompts, each section needs to stand on its own as an extractable, quotable answer to its specific sub-question, the same discipline as a standalone blog post applied section by section throughout a much longer page.
+```markdown
+---
+title: "<title tag>"
+meta_description: "<meta>"
+status: publish_ready | needs_trust_qa
+next_link_review: <date>
+---
 
-## Phase 5: Internal link architecture
+# <H1>
+## Contents
+…sections…
 
-The pillar is the hub. It must link out to every relevant existing spoke page, and be structured so that new spoke pages can be added to its linking without a full rewrite, for example a clearly labeled list or section per subtopic that a new link can be dropped into.
+---
+## Subtopic map
+| Subtopic | Pillar section / spoke | Spoke URL or "new → content-brief" |
 
-Every relevant spoke page should also link back up to the pillar. If those spoke pages already exist, note explicitly where their internal links need to be added or updated as part of this agent's output, since this is often missed when a pillar is added after its spokes already exist.
+## Link map
+| Direction | From | To | Anchor |
+## Spokes needing inbound link updates
+## Sources
+| # | Claim | URL | Accessed | Confidence |
+## Flagged claims for trust-qa
+## Structured data: Article, BreadcrumbList
+## Check results
+```
 
-Treat the pillar as a living document. As new spoke pages are created later, the pillar's internal link section needs a scheduled update rather than being left to go stale.
+## Approval gates
 
-## Output
+- Do not publish, and do not edit existing spoke pages to add backlinks, without explicit permission. Deliver the update list instead.
+- Get approval before making competitor comparisons or regulated claims.
 
-A full pillar draft including: title and meta per the Titling Skill, a table of contents, section by section coverage of every core subtopic with links out to relevant spoke pages, precise definitions of central entities, a note of which structured data types apply, and an internal link map showing both outbound links to spokes and where spoke pages need inbound links added back to the pillar.
+## Stop conditions
+
+- The topic is too narrow for a hub (fewer than about 4 distinct subtopics). Recommend `content` instead.
+- The central definition or claim cannot be sourced.
 
 ## Anti-patterns
 
-Treating length as a substitute for actual comprehensive coverage of the topic's real breadth.
+- Using length as a substitute for breadth.
+- No spoke links, or one-way links only.
+- Looser structure "because it's long".
+- A stale link section after new spokes are published.
+- Scoping only from the triggering query.
+- Promising FAQ or HowTo rich results.
+- Restructuring purely "for AI" instead of for readers.
 
-Producing a pillar with no links out to spoke pages, leaving it an isolated long page rather than the hub of a silo.
+## Completion checklist
 
-Writing the whole pillar as one continuous voice without the same paragraph and extractability discipline used in standalone posts, on the assumption that length excuses looser structure.
-
-Letting the pillar's internal link section go stale as new spoke pages are published later without being added back in.
-
-Skipping the subtopic scoping step and starting from only the single query that prompted the pillar, resulting in a page that is long but not actually comprehensive across the topic's full breadth.
-
-## Quick checklist
-
-Full subtopic breadth scoped before writing, using keyword clusters, GEO Agent gaps, and Competitor Audit findings where available.
-
-Table of contents present given the page's length.
-
-Each subtopic has its own real sub-question H2, standalone depth, and a link out to its dedicated spoke page.
-
-Paragraph chunking and answer first extractability rules applied within every section, not just the opening.
-
-Precise, checkable definitions given for central entities early in the page.
-
-Structured data opportunities flagged by type.
-
-Internal link map complete in both directions: pillar to spokes, and spokes back to pillar, with a note on which spoke pages need updating.
-
-Title and meta produced per the Titling Skill.
+- [ ] Breadth scoped from clusters, gaps and competitors, with dates
+- [ ] Every subtopic assigned to a section or spoke
+- [ ] Table of contents, sub-question H2s, and each section self-sufficient
+- [ ] Definitions early. Claims sourced or flagged
+- [ ] Two-way link map and spoke update list. Review date set
+- [ ] Only Article and Breadcrumb schema recommended
+- [ ] `check-draft.mjs` passes. Status set honestly

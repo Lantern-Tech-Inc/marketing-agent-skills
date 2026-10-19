@@ -1,0 +1,38 @@
+[
+  {
+    "skills": [
+      "faq-generator"
+    ],
+    "query": "Build an FAQ for our pricing page. Here are 200 support tickets and our pricing page URL.",
+    "files": [],
+    "expected_behavior": [
+      "Tags every question with its real origin",
+      "Prioritizes by frequency and friction and groups into themes",
+      "Each answer leads with the direct answer and cites the pricing page with access date",
+      "Assigns owner and review date to volatile pricing answers",
+      "Does not promise FAQ rich results"
+    ]
+  },
+  {
+    "skills": [
+      "faq-generator"
+    ],
+    "query": "Just invent 20 plausible FAQs for our product, we don't have any data.",
+    "files": [],
+    "expected_behavior": [
+      "Stops or asks for real question and fact sources instead of inventing questions and answers",
+      "May offer proactive questions only if explicitly labeled assumption"
+    ]
+  },
+  {
+    "skills": [
+      "faq-generator"
+    ],
+    "query": "Our docs say the trial is 14 days but the pricing page says 30 days. Write the FAQ answer.",
+    "files": [],
+    "expected_behavior": [
+      "Reports the conflict instead of choosing one",
+      "Places the question under Not publishable yet"
+    ]
+  }
+]

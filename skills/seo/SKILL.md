@@ -1,70 +1,146 @@
 ---
 name: seo
-description: "Turn ranking, traffic, and technical SEO data into a prioritized action plan. Use for organic search audits, technical SEO diagnosis, performance analysis, crawlability, and SEO recommendations."
+description: "Turns ranking, traffic, and technical data from named sources (Search Console, analytics, CrUX, crawlers) into a short, prioritized, evidence-backed SEO action plan, including AI-crawler access and AI-feature eligibility checks. Use for organic search audits, technical SEO diagnosis, traffic-drop analysis, striking-distance and cannibalization reviews, and SEO recommendations."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# SEO Agent Skill - Lantern
+# SEO
 
-Purpose: turn raw ranking, traffic, and technical data into a short, prioritized list of high impact actions. This agent is the traditional search counterpart to the GEO Agent. GEO Agent covers how AI engines represent a brand. SEO Agent covers how the site actually performs in classic organic search, including the technical health that both classic search and AI crawlers depend on. The two should be read together, not treated as separate worlds, since a technically broken page cannot be cited by anything.
+Purpose: turn raw ranking, traffic and technical data into a ranked list of high-impact actions, not a data dump. This is the classic-search counterpart to `competitor-audit` (how AI engines represent brands). Read the two together. A page that cannot be crawled or indexed cannot rank or be cited. Google's AI features draw on the same index, so classic eligibility comes first.
 
-The output of this agent is a ranked action list, not a data dump. Anyone reading it should know exactly what to do first and why it matters more than the next item.
+Shared rules:
 
-## Phase 1: Current state audit
+- [references/evidence-standards.md](references/evidence-standards.md) covers data sources, metric hygiene and current platform facts.
+- [references/query-types.md](references/query-types.md) covers assigning formats to new-page recommendations.
 
-Pull the baseline before recommending anything.
+## When to use this skill
 
-Rankings by keyword cluster, not just individual keywords. Group by topic so patterns are visible, for example an entire cluster sliding at once usually points to one root cause rather than many small ones.
+Use for site or section SEO audits, traffic or ranking drop diagnosis, technical health reviews, striking-distance and cannibalization analysis, and SEO roadmaps.
 
-Traffic trends over a meaningful window, checked against any known algorithm updates or site changes in that window, so a drop or spike has a candidate explanation rather than being reported as a mystery.
+Do not use when:
 
-Technical health: crawlability, indexation status, core web vitals, mobile usability, broken internal links, and duplicate or thin content. These are foundational. A content gap fix cannot help a page Google is not indexing in the first place.
+- The user only wants keyword or prompt demand. Use `keyword-research`.
+- The question is how AI engines describe a competitor. Use `competitor-audit`.
+- The user wants to implement code changes. This skill recommends; it does not deploy.
 
-Site structure: whether the existing internal linking actually reflects a real topic hierarchy, or whether pages are orphaned with no path in from the rest of the site.
+## Required inputs
 
-## Phase 2: Opportunity surfacing
+```yaml
+site: ""
+scope: ""                    # whole site, section, or URL list
+market:
+  country: ""
+  language: ""
+data_access:                 # record what is actually available
+  search_console: false
+  analytics: ""              # e.g. GA4 or "none"
+  crux_or_pagespeed: false
+  crawler: ""                # crawl tool or "none"
+  server_logs: false
+  rank_tracker: ""
+known_changes: []            # migrations, releases, redesigns with dates
+```
 
-Striking distance keywords: terms currently ranking roughly position 5 through 20, where a moderate content or technical improvement has a realistic chance of reaching the top 3. These are almost always the highest return per unit of effort, since the page already has some relevance signal and just needs reinforcement.
+If there is no Search Console or analytics access, say so up front. The audit is then limited to public signals, and confidence drops.
 
-Content gaps versus competitors: topics competitors rank for that the site has no page addressing at all. Cross reference against the Content Skill's query type classification so any new page recommendation already has a format assigned (cost table, comparison, process steps, and so on) rather than starting from a blank brief.
+## Workflow
 
-Cannibalization: multiple internal pages competing for the same query and splitting authority. This is a common, often invisible cause of stagnant rankings and should be checked explicitly, not assumed absent.
+```text
+- [ ] 1. Data sources, windows, and known changes recorded
+- [ ] 2. Baseline: clusters, trends, technical health, structure
+- [ ] 3. Changes explained against updates/site changes/seasonality
+- [ ] 4. Opportunities: striking distance, gaps, cannibalization, blockers
+- [ ] 5. AI-feature eligibility and crawler access checked
+- [ ] 6. Scored on impact, effort, urgency, confidence
+- [ ] 7. Ranked action list with owners; approvals requested
+```
 
-Technical blockers found in Phase 1 that are actively suppressing otherwise good content, for example a slow loading page with strong content but poor core web vitals.
+1. **Record data sources.**
+   - Name every source, its date range and its locale. Follow the metric hygiene rules in [references/evidence-standards.md](references/evidence-standards.md):
+     - compare windows of at least 28 days, plus year over year for seasonal sites
+     - flag sampled or thresholded analytics data
+     - treat Core Web Vitals field data (CrUX) as truth and lab data as diagnostic
+2. **Baseline.**
+   - Rankings and traffic by topic cluster, not by single keyword. A whole cluster sliding together usually means one root cause.
+   - Technical health: crawlability, robots.txt, indexation (Search Console page indexing report), canonicals, Core Web Vitals (field data), mobile usability, broken internal links, redirect chains, and duplicate or thin pages.
+   - Site structure: does internal linking reflect a real topic hierarchy? Are there orphan pages?
+3. **Explain changes.**
+   - Check each significant movement against the Google Search Status Dashboard (ranking updates and incidents), `known_changes`, and seasonality.
+   - Label each explanation `verified`, `observed` or `inferred` according to [references/evidence-standards.md](references/evidence-standards.md).
+   - Never present a correlation with an update as a proven cause.
+4. **Opportunities.**
+   - **Striking distance**: queries in roughly positions 5–20 with meaningful impressions in Search Console.
+   - **Content gaps** against competitors. Give each recommended new page a format based on its query type, from [references/query-types.md](references/query-types.md).
+   - **Cannibalization**: check explicitly for multiple URLs splitting the same query, using Search Console query-to-page data.
+   - **Technical blockers** that suppress otherwise strong pages.
+5. **AI features and crawlers.**
+   - Confirm key pages are indexed and snippet-eligible. Check for `nosnippet` or `max-snippet` directives that would limit AI feature use.
+   - Check the Search Console generative AI performance data, if available.
+   - Review robots.txt for AI crawler user agents and Google-Extended. Report the current policy factually; whether to allow or block them is a business decision for the user.
+   - `llms.txt` is not used by Google Search. Do not recommend it as a Google ranking or visibility tactic.
+6. **Score** each item on four things:
+   - impact potential
+   - effort
+   - urgency (an active decline beats a stable underperformer)
+   - confidence in the diagnosis
 
-## Phase 3: Prioritization framework
+   Favor high-impact, low-effort fixes (striking-distance improvements, broken canonicals, blocked pages) before large new-content bets.
+7. **Output** a ranked list using the template.
+   - Send content items to `content-brief`, `content` or `pillar-article`.
+   - Send technical items to the brand's engineering process.
 
-Score each opportunity on two axes: traffic or visibility potential, and effort required to capture it. Favor high potential, low effort items first, specifically striking distance keyword fixes and quick technical repairs, before recommending large net new content projects. A new pillar article is a bigger bet than fixing a broken canonical tag, and the action list should reflect that difference in effort honestly.
+## Output template
 
-Account for time sensitivity separately from potential and effort. A page losing rank steadily due to a recent algorithm shift needs faster attention than a stable but underperforming page, even if the second one has higher raw potential.
+```markdown
+# SEO action plan: <site/scope> — <date>
 
-## Phase 4: Output
+## Data sources & limits
+| Source | Range | Locale | Caveats (sampled, thresholded, lab vs field) |
 
-Produce a ranked list, each item stating: the specific page or cluster affected, the current state (rank, traffic, or technical issue), the recommended action, the expected impact, and the estimated effort. Route content specific items to Content Agent or Pillar Article Agent, and route pure technical items to whichever engineering or platform process the brand uses, since this agent does not implement code fixes itself.
+## Key findings
+| Finding | Evidence | Explanation | Confidence |
+
+## Ranked actions
+| # | Page/cluster | Current state (metric, source) | Action | Expected impact | Effort | Urgency | Confidence | Owner (skill/team) |
+
+## AI features & crawler access
+## Not investigated / data gaps
+```
+
+## Approval gates
+
+The following need explicit user approval and are delivered as recommendations only:
+
+- robots.txt changes, noindex or canonical changes, redirects, URL migrations
+- page deletion or consolidation
+- blocking or allowing AI crawlers
+
+## Stop conditions
+
+- There is no data access and the user wants traffic diagnosis. Explain the limits. Do not invent metrics.
+- A drop coincides with a possible manual action or security issue. Point the user to the Search Console Manual Actions and Security Issues reports first.
 
 ## Anti-patterns
 
-Chasing high volume keywords with no real intent match to what the brand actually offers. Ranking for a term nobody who visits will convert on wastes effort that a striking distance fix would have better used.
+- Metric walls with no prioritization.
+- Recommending only new content while technical debt suppresses existing pages.
+- Treating every drop as urgent, or blaming updates without checking timing.
+- Ignoring cannibalization, or adding a page that worsens it.
+- Comparing windows of less than 28 days, or ignoring seasonality.
+- Using lab Core Web Vitals scores as the verdict.
+- Recommending `llms.txt` or "AI chunking" for Google visibility.
+- Chasing volume with no intent match.
 
-Recommending only new content while ignoring technical debt that is suppressing the content already published.
+## Completion checklist
 
-Treating every ranking drop as equally urgent without checking whether it correlates with a known algorithm update, a site change, or normal SERP volatility.
-
-Reporting a wall of metrics with no prioritization, leaving the reader to guess what matters most.
-
-Ignoring cannibalization and recommending a new page on a topic the site already has two competing pages for, which would make the cannibalization worse rather than better.
-
-## Quick checklist
-
-Baseline pulled across rankings by cluster, traffic trends, technical health, and internal link structure before any recommendation is made.
-
-Striking distance keywords identified specifically, not folded into a generic keyword list.
-
-Content gaps checked against competitors and assigned a format per the Content Skill's query type classification.
-
-Cannibalization checked explicitly, not assumed absent.
-
-Every opportunity scored on potential and effort, with time sensitivity noted separately.
-
-Final output is a ranked list with page, current state, action, expected impact, and effort for each item, not a raw data export.
-
-Content specific recommendations routed to Content Agent or Pillar Article Agent by name.
+- [ ] Every metric names its source, range and locale
+- [ ] Baseline covers clusters, trends, technical health and structure
+- [ ] Movements checked against the Status Dashboard, known changes and seasonality
+- [ ] Striking distance, gaps, cannibalization and blockers each checked explicitly
+- [ ] AI-feature eligibility and crawler policy reported
+- [ ] Ranked list with impact, effort, urgency, confidence and owner
+- [ ] Risky changes listed under approval gates

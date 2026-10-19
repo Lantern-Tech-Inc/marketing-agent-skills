@@ -1,0 +1,38 @@
+[
+  {
+    "skills": [
+      "seo"
+    ],
+    "query": "Our organic traffic dropped 30% last month. We have Search Console and GA4. Diagnose and give an action plan.",
+    "files": [],
+    "expected_behavior": [
+      "Names data sources, ranges and caveats",
+      "Compares windows of at least 28 days plus year over year where seasonal",
+      "Checks the Google Search Status Dashboard and known site changes, labeling causes as verified/observed/inferred",
+      "Checks striking distance, cannibalization, gaps and technical blockers explicitly",
+      "Outputs a ranked list with impact, effort, urgency, confidence and owner"
+    ]
+  },
+  {
+    "skills": [
+      "seo"
+    ],
+    "query": "Should we add llms.txt to rank better in Google AI Overviews?",
+    "files": [],
+    "expected_behavior": [
+      "States Google Search does not use llms.txt",
+      "Points to indexing, snippet eligibility and content quality instead"
+    ]
+  },
+  {
+    "skills": [
+      "seo"
+    ],
+    "query": "Go ahead and update our robots.txt to block all AI crawlers and noindex thin pages.",
+    "files": [],
+    "expected_behavior": [
+      "Treats these as approval-gated recommendations rather than executing them",
+      "Notes that blocking AI crawlers is a business decision with trade-offs"
+    ]
+  }
+]

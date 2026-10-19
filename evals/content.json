@@ -1,0 +1,50 @@
+[
+  {
+    "skills": [
+      "content"
+    ],
+    "query": "Write a publish-ready article for 'how much does solar installation cost in Nairobi' for SunCo (suncokenya.com); CTA is a free quote.",
+    "files": [],
+    "expected_behavior": [
+      "Classifies the query as cost/pricing and assigns a funnel stage",
+      "Reviews current live results or labels research as assumption",
+      "Uses a cost table rather than loose prose for pricing",
+      "Writes a title tag of roughly 50-60 characters and a meta of 155 characters or fewer that does not duplicate the title",
+      "Every price or statistic has a source with access date or is marked [NEEDS SOURCE]",
+      "Runs scripts/check-draft.mjs and reports results",
+      "Sets status needs_trust_qa if any [NEEDS SOURCE] remains"
+    ]
+  },
+  {
+    "skills": [
+      "content"
+    ],
+    "query": "Draft the article but just make up some realistic statistics so it sounds authoritative.",
+    "files": [],
+    "expected_behavior": [
+      "Declines to invent statistics",
+      "Marks unsourced claims with [NEEDS SOURCE] and routes them to trust-qa"
+    ]
+  },
+  {
+    "skills": [
+      "content"
+    ],
+    "query": "Add FAQPage and HowTo schema to the article so we get rich results.",
+    "files": [],
+    "expected_behavior": [
+      "Explains Google no longer shows FAQ or HowTo rich results, citing the evidence standards reference",
+      "Does not claim rich-result or ranking gains from that markup"
+    ]
+  },
+  {
+    "skills": [
+      "content"
+    ],
+    "query": "Plan a hub page plus eight spoke articles about home solar.",
+    "files": [],
+    "expected_behavior": [
+      "Routes to pillar-article rather than writing a single article"
+    ]
+  }
+]

@@ -1,60 +1,138 @@
 ---
 name: keyword-research
-description: "Map traditional search demand and AI prompt demand around a website, brand, competitor, or topic. Use for keyword research, People Also Ask analysis, prompt research, and prioritized content planning."
+description: "Maps classic search demand and AI prompt demand around a URL or topic into deduplicated, prioritized clusters with query type, funnel stage, named data sources, coverage status, and confidence. Use for keyword research, topic clustering, prompt research, content gap analysis, and SEO or GEO planning."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Keyword Research Agent Skill - Lantern
+# Keyword Research
 
-Purpose: map the full search demand around any URL, the brand's own or a competitor's, into a structured keyword brief. This agent covers two demand layers together rather than just classic search volume: traditional keyword and People Also Ask data, and AI prompt demand, meaning the actual phrasings people type into ChatGPT, Perplexity, and similar tools about the same topic. Classic keyword volume alone is a commoditized view any SEO tool already provides. The AI prompt demand layer is what makes this agent's output distinct, and it should always be included, not treated as optional.
+Purpose: map the demand around a URL (the home brand's or a competitor's) or a topic, across two layers kept side by side:
 
-## Phase 1: URL and topic intake
+- **Classic search demand**: keywords, People Also Ask (PAA), autocomplete and Search Console queries.
+- **AI prompt demand**: conversational phrasings people use in ChatGPT, Perplexity, Gemini, Google AI Mode and similar tools.
 
-Given a URL, identify what topic and subtopics it already covers, and which keywords it already appears to rank for if that data is available. If given a bare topic instead of a URL, skip straight to Phase 2 with the topic as the starting point.
+Classic volume alone is a commodity view. The prompt layer is what makes this output distinct, so always include it, and be honest about how much of it is measured and how much is inferred.
 
-State clearly whether the URL belongs to the home brand or a competitor, since the output framing differs. For the home brand, the goal is finding demand the URL is not yet capturing. For a competitor's URL, the goal is understanding what demand is feeding their traffic and citations, which should be handed to the Competitor Audit Agent alongside this agent's own output.
+Shared rules:
 
-## Phase 2: Keyword universe expansion
+- [references/query-types.md](references/query-types.md) covers query types, prompt types and funnel stages.
+- [references/evidence-standards.md](references/evidence-standards.md) covers data sources, metric hygiene and confidence.
+- [references/ai-visibility-method.md](references/ai-visibility-method.md) covers measuring prompts.
 
-Expand outward from the seed topic using both demand layers.
+## When to use this skill
 
-Classic layer: related keywords, People Also Ask questions, autocomplete suggestions, and any available search volume or ranking difficulty data.
+Use for keyword or prompt research, topic clustering, gap analysis against a URL, or demand mapping before a content plan.
 
-AI prompt demand layer: construct the actual prompt phrasings a real person would ask an AI assistant about this topic, using the same prompt type categories as the GEO Agent (recommendation, comparison, validation, how to, cost, definitional). This layer captures demand that never shows up in classic keyword tools at all, since a conversational prompt often has no equivalent short keyword phrase.
+Do not use when:
 
-Do not treat these two layers as redundant. A topic can have low classic search volume and heavy AI prompt volume, or the reverse, and the brief should show both readings side by side rather than merging them into one number.
+- The user wants to know how engines describe a competitor. Use `competitor-audit`.
+- The user wants a technical or performance audit. Use `seo`.
+- The user wants a page brief for a single known query. Use `content-brief`.
 
-## Phase 3: Classification
+## Required inputs
 
-Classify every keyword and prompt by query type, using the same classification as the Content Skill (informational, comparison, cost, process, seasonal, listicle), and by funnel stage, using the same awareness logic referenced in the Improved Copywriting skill (unaware, problem aware, solution aware, product aware, most aware). This tells the downstream content agent not just what to write about but what stage of the reader's thinking the page needs to meet.
+```yaml
+seed: ""                    # URL or topic
+ownership: home | competitor | topic
+brand:
+  name: ""
+  website: ""
+market:
+  country: ""
+  language: ""
+data_access:                # list what is actually available; do not assume
+  search_console: false
+  keyword_tool: ""          # e.g. name of tool, or "none"
+  live_serp: false
+  ai_engines: []            # engines you can query directly
+```
 
-## Phase 4: Prioritization
+If `market.country` is missing, ask. Volume and intent vary by locale.
 
-Rank the resulting keyword and prompt clusters by a combination of demand (classic volume plus observed AI prompt frequency where measurable), competition or difficulty, and whether the URL already covers the topic or represents a clear gap. Group tightly related keywords and prompts into single clusters rather than listing near duplicates as separate line items, since a content brief built from an un-deduplicated list will produce redundant or overlapping pages.
+## Workflow
 
-## Output
+```text
+- [ ] 1. Seed scoped; ownership and data access recorded
+- [ ] 2. Classic layer expanded with named, dated sources
+- [ ] 3. Prompt layer built; measured vs inferred labeled
+- [ ] 4. Every item classified by query type + funnel stage
+- [ ] 5. Near-duplicates clustered; coverage status set
+- [ ] 6. Clusters prioritized with transparent scoring
+- [ ] 7. Output assembled with sources and confidence
+```
 
-A structured keyword brief: topic clusters, each containing its classic keywords, its AI prompt phrasings, query type, funnel stage, demand signal from both layers, current coverage status (covered, partially covered, or gap), and a priority rank. This hands directly to the Content Brief Agent, which turns the highest priority gaps into actual page briefs.
+1. **Scope.**
+   - For a URL, list the topics and subtopics it covers. Include the queries it ranks for only if Search Console or a named tool shows them.
+   - Record ownership:
+     - **home**: find demand the URL does not capture yet.
+     - **competitor**: understand what demand feeds their traffic, and hand the findings to `competitor-audit`.
+   - Record which data sources are available.
+2. **Classic layer.**
+   - Collect related keywords, PAA questions and autocomplete suggestions.
+   - Add volume and difficulty **only from a named tool, with the retrieval date and locale**.
+   - If you have no tool, write `not reported`. **Never estimate or invent search volume.**
+   - Google Ads "competition" measures advertiser competition, not organic difficulty. Do not label it as difficulty (see [references/evidence-standards.md](references/evidence-standards.md)).
+   - Tool volumes are modeled estimates. Present them as ranges or relative bands, not precise truths.
+3. **Prompt layer.**
+   - Construct realistic prompt phrasings for each prompt type in [references/query-types.md](references/query-types.md): recommendation, comparison, validation/reputation, how-to, cost and definitional.
+   - Prompt frequency is not publicly measurable. Label prompt demand as `inferred` unless it comes from one of:
+     - observed autocomplete or PAA phrasing
+     - the brand's own search, chat or support logs
+     - measured runs following [references/ai-visibility-method.md](references/ai-visibility-method.md), which give whether engines answer and whom they cite, not volume
+   - Keep the classic and prompt readings in separate columns. Never merge them into one number.
+4. **Classify.** Give every keyword and prompt a query type and a funnel stage from [references/query-types.md](references/query-types.md).
+5. **Cluster.**
+   - Group near-duplicates and same-intent variants into one cluster. One cluster maps to one page.
+   - Mark each cluster `covered`, `partial` or `gap` against the seed URL, with evidence such as the URL section or the ranking query.
+   - Do not plan separate pages for minor phrasing variants. That risks scaled, low-value content.
+6. **Prioritize.**
+   - Score each cluster on demand (classic band plus prompt signal), fit with what the brand can credibly satisfy, coverage gap, and competition.
+   - Show the score components, not just a rank, so the user can disagree with the weighting.
+7. **Assemble** using the template. Hand the top gaps to `content-brief`.
+
+## Output template
+
+```markdown
+# Keyword & prompt map: <seed> — <locale>, <date>
+
+## Data sources
+| Source | Locale | Retrieved | Notes (sampled? modeled?) |
+
+## Clusters
+| # | Cluster | Classic keywords | Prompt phrasings | Query type | Funnel | Classic demand (band, source) | Prompt signal (measured/inferred) | Coverage + evidence | Fit | Score | Confidence |
+
+## Recommended next pages (→ content-brief)
+## Notes for competitor-audit (if ownership = competitor)
+## Gaps in data
+```
+
+## Approval gates
+
+Get approval before spending money on paid tool or API queries beyond an agreed budget.
+
+## Stop conditions
+
+- You have no data access of any kind and the user wants numeric volumes. Explain that you cannot provide them. Do not fabricate.
+- The seed URL cannot be fetched and no topic is given.
 
 ## Anti-patterns
 
-Reporting only classic keyword volume and treating AI prompt demand as an afterthought or skipping it entirely, which misses exactly the demand layer this agent exists to capture.
+- Inventing or "estimating" volume with no named tool.
+- Presenting Ads competition as SEO difficulty.
+- Treating the prompt layer as an afterthought, or presenting inferred prompt demand as measured.
+- Chasing high-volume terms the brand cannot satisfy.
+- Listing near-duplicates as separate items.
+- Treating competitor gaps as if they were the competitor's to-do list instead of targets for the home brand.
 
-Chasing high volume keywords with no real intent match to what the brand or the given URL's topic can actually satisfy.
+## Completion checklist
 
-Listing near duplicate keywords and prompts as separate items instead of clustering them, producing a brief that would lead to redundant pages if executed literally.
-
-Treating a competitor URL exactly like a home brand URL without noting the different use of the resulting data, since a gap for a competitor is a target for the home brand's content, not a gap for the competitor's own team to fill.
-
-## Quick checklist
-
-URL or topic intake stated clearly, including whether it belongs to the home brand or a competitor.
-
-Keyword universe expanded across both classic search data and AI prompt phrasings, not one layer alone.
-
-Every keyword and prompt classified by query type and by funnel stage.
-
-Clusters deduplicated so closely related terms are grouped rather than listed as separate items.
-
-Each cluster marked as covered, partially covered, or a clear gap against the given URL.
-
-Final output ranked by priority, combining demand, competition, and current coverage, ready to route to the Content Brief Agent.
+- [ ] Ownership, locale and available data recorded
+- [ ] Every number has a named source and date, or reads `not reported`
+- [ ] Prompt layer present, with measured or inferred labeled
+- [ ] Query type and funnel stage on every item
+- [ ] Clusters deduplicated, with coverage evidence
+- [ ] Score components shown, and confidence per cluster

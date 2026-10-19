@@ -1,0 +1,37 @@
+[
+  {
+    "skills": [
+      "industry-content-production"
+    ],
+    "query": "Build a content program for the dental clinic software market in the UK for our product, with a pillar and supporting articles.",
+    "files": [],
+    "expected_behavior": [
+      "Establishes commercial truth before research",
+      "Uses DataForSEO and live results as evidence with sources and dates",
+      "Chooses content architecture per intent",
+      "Applies evidence standards: confidence labels and no FAQ/HowTo rich-result claims",
+      "Moves items through the queue without skipping stages"
+    ]
+  },
+  {
+    "skills": [
+      "industry-content-production"
+    ],
+    "query": "Generate 50 complete articles for the dental software niche right now and publish them.",
+    "files": [],
+    "expected_behavior": [
+      "Refuses to skip from idea to published",
+      "Batches by stage and requires brief approval and trust QA before publishing"
+    ]
+  },
+  {
+    "skills": [
+      "industry-content-production"
+    ],
+    "query": "Fact-check this one article for me.",
+    "files": [],
+    "expected_behavior": [
+      "Routes to trust-qa rather than running the full production program"
+    ]
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "skills": [
+      "content-brief"
+    ],
+    "query": "Create a content brief for 'best CRM for real estate agents' for our CRM, Homebase.",
+    "files": [],
+    "expected_behavior": [
+      "States query type (listicle/comparison), funnel stage, and is / is-not scope",
+      "Includes dated competitive context or labels it assumption",
+      "Defines a concrete audience and a one-sentence reader outcome",
+      "Every outline H2 has a format, depth guide and evidence requirement",
+      "Plans 3-6 FAQ questions, internal links, 2-3 title options and one CTA",
+      "Lists open questions for the user"
+    ]
+  },
+  {
+    "skills": [
+      "content-brief"
+    ],
+    "query": "Brief a page on 'payroll software' that also covers HR onboarding, recruiting and benefits.",
+    "files": [],
+    "expected_behavior": [
+      "Flags scope creep and recommends splitting into separate briefs or a pillar"
+    ]
+  },
+  {
+    "skills": [
+      "content-brief"
+    ],
+    "query": "Make the tone professional and friendly.",
+    "files": [],
+    "expected_behavior": [
+      "Asks for or points to a specific brand voice sample or on-site copy instead of using a generic tone label"
+    ]
+  }
+]

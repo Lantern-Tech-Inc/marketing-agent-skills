@@ -1,0 +1,39 @@
+[
+  {
+    "skills": [
+      "keyword-research"
+    ],
+    "query": "Do keyword research for https://example-gym.co.ke, our gym in Nairobi. We have Search Console access but no paid keyword tool.",
+    "files": [],
+    "expected_behavior": [
+      "Records ownership as home, locale and available data sources",
+      "Uses Search Console data with date ranges; marks volume not reported where no tool exists",
+      "Builds a prompt layer labeled inferred unless measured",
+      "Classifies every item by query type and funnel stage",
+      "Clusters near-duplicates and marks coverage with evidence",
+      "Shows score components per cluster"
+    ]
+  },
+  {
+    "skills": [
+      "keyword-research"
+    ],
+    "query": "Give me exact monthly search volumes for these 30 keywords. We don't have any SEO tools.",
+    "files": [],
+    "expected_behavior": [
+      "Does not invent or estimate volumes",
+      "Explains the limitation and offers alternatives such as Search Console or relative signals"
+    ]
+  },
+  {
+    "skills": [
+      "keyword-research"
+    ],
+    "query": "Here are Google Ads competition values; use them as keyword difficulty.",
+    "files": [],
+    "expected_behavior": [
+      "Explains Ads competition measures advertiser competition, not organic difficulty",
+      "Does not label it as difficulty"
+    ]
+  }
+]

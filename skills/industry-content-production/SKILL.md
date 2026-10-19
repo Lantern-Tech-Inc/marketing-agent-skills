@@ -1,9 +1,14 @@
 ---
 name: industry-content-production
-description: "Build a research-backed industry content program and publish-ready draft from market framing through trust review. Use for industry pages, vertical campaigns, market content, and end-to-end production."
+description: "Builds a research-backed industry content program and publish-ready draft from market framing through trust review. Use for industry pages, vertical campaigns, market content, and end-to-end production."
+license: MIT
+metadata:
+  version: "1.0.0"
+  status: beta
+  author: Lantern
 ---
 
-# Industry Content Production Agent Skill - Lantern
+# Industry Content Production
 
 Purpose: turn any industry, market, product, or customer problem into a research-backed content program and publish-ready draft. This skill owns the complete process from market framing and search-intent research through competitive analysis, content-format selection, briefing, drafting, trust review, internal linking, and publication handoff. It uses DataForSEO and live Google results as evidence, but it does not mistake search volume for strategy or copy whatever currently ranks.
 
@@ -185,6 +190,8 @@ Use when product and service pages dominate. Route the request away from blog pr
 ## Phases 9–13: Production and publication
 
 Load [production guidance](./references/production.md) before creating the research packet, content brief, draft, QA review, and publication package.
+
+Apply [evidence standards](./references/evidence-standards.md) to every claim, metric, and platform fact: name the source and access date, use confidence labels, and never cite FAQ or HowTo rich results as a benefit (Google no longer shows them).
 
 ## Scale workflow
 
