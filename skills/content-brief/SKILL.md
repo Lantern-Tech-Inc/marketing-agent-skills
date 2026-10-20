@@ -4,7 +4,7 @@ description: "Turns a topic or keyword into a research-backed execution brief th
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

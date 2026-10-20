@@ -4,7 +4,7 @@ description: "Plans data-led digital PR campaigns that earn coverage, citations,
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

@@ -4,7 +4,7 @@ description: "Builds an evidence-based brand voice and style guide from the bran
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

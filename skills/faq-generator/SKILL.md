@@ -4,7 +4,7 @@ description: "Creates brand-aligned FAQ sets sourced from real customer, search,
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

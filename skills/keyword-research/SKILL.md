@@ -4,7 +4,7 @@ description: "Maps classic search demand and AI prompt demand around a URL or to
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 
