@@ -1,6 +1,6 @@
 {
   "name": "Lantern Marketing Agent Skills",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Open, reusable marketing workflows for AI agents, maintained by Lantern.",
   "homepage": "https://www.asklantern.com/skills",
   "repository": "https://github.com/Lantern-Tech-Inc/marketing-agent-skills",
@@ -11,7 +11,7 @@
       "path": "skills/ai-visibility-report/SKILL.md",
       "description": "Measure brand mentions, citations, share of voice, and answer accuracy across AI search with first-party data.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "brand-voice",
@@ -19,7 +19,7 @@
       "path": "skills/brand-voice/SKILL.md",
       "description": "Build an evidence-based brand voice and style guide that writers and AI agents can apply.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "comparison-page",
@@ -27,7 +27,7 @@
       "path": "skills/comparison-page/SKILL.md",
       "description": "Write fair, substantiated vs, alternatives, and best-for comparison pages.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "competitor-audit",
@@ -35,7 +35,7 @@
       "path": "skills/competitor-audit/SKILL.md",
       "description": "Analyze competitor positioning, prompts, visibility, and citation vulnerabilities across AI search.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "content",
@@ -43,7 +43,7 @@
       "path": "skills/content/SKILL.md",
       "description": "Research and write a publish-ready SEO and AI-search article.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "content-brief",
@@ -51,7 +51,7 @@
       "path": "skills/content-brief/SKILL.md",
       "description": "Create an evidence-backed content brief with intent, structure, and sources.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "content-calendar",
@@ -59,7 +59,7 @@
       "path": "skills/content-calendar/SKILL.md",
       "description": "Plan a capacity-based content calendar balancing new content, refreshes, and distribution.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "content-refresh",
@@ -67,7 +67,7 @@
       "path": "skills/content-refresh/SKILL.md",
       "description": "Diagnose decaying pages and update, consolidate, or remove them with honest date handling.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "content-repurposing",
@@ -75,7 +75,7 @@
       "path": "skills/content-repurposing/SKILL.md",
       "description": "Turn one approved asset into platform-native derivatives without duplication or disclosure issues.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "digital-pr",
@@ -83,7 +83,7 @@
       "path": "skills/digital-pr/SKILL.md",
       "description": "Plan data-led digital PR that earns coverage and citations within link spam policies.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "faq-generator",
@@ -91,7 +91,7 @@
       "path": "skills/faq-generator/SKILL.md",
       "description": "Create brand-aligned customer and answer-engine FAQs.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "industry-content-production",
@@ -99,7 +99,7 @@
       "path": "skills/industry-content-production/SKILL.md",
       "description": "Run an end-to-end industry research and content production workflow.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "internal-linking",
@@ -107,7 +107,7 @@
       "path": "skills/internal-linking/SKILL.md",
       "description": "Audit internal links and produce a prioritized, in-context link plan.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "keyword-research",
@@ -115,7 +115,7 @@
       "path": "skills/keyword-research/SKILL.md",
       "description": "Map traditional keyword demand and conversational AI prompt demand.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "landing-page-copy",
@@ -123,7 +123,7 @@
       "path": "skills/landing-page-copy/SKILL.md",
       "description": "Write conversion-focused landing page copy with substantiated claims and a test plan.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "pillar-article",
@@ -131,7 +131,7 @@
       "path": "skills/pillar-article/SKILL.md",
       "description": "Create a comprehensive pillar article for topical authority and AI citations.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "seo",
@@ -139,7 +139,7 @@
       "path": "skills/seo/SKILL.md",
       "description": "Turn ranking, traffic, and technical data into prioritized SEO actions.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "structured-data",
@@ -147,7 +147,7 @@
       "path": "skills/structured-data/SKILL.md",
       "description": "Select, write, and validate schema.org JSON-LD for supported Google rich results.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     },
     {
       "name": "trust-qa",
@@ -155,7 +155,7 @@
       "path": "skills/trust-qa/SKILL.md",
       "description": "Verify claims, statistics, sources, and attributions before publication.",
       "version": "1.0.0",
-      "status": "beta"
+      "status": "stable"
     }
   ]
 }

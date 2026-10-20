@@ -4,7 +4,7 @@ description: "Researches, structures, and writes a publish-ready SEO and AI-sear
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

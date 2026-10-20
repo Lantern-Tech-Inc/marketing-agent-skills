@@ -4,7 +4,7 @@ description: "Audits how AI answer engines (ChatGPT, Perplexity, Google AI Mode,
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

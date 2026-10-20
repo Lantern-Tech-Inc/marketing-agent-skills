@@ -4,7 +4,7 @@ description: "Audits and writes schema.org JSON-LD for a page or template agains
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

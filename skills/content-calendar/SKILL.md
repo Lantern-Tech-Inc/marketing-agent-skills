@@ -4,7 +4,7 @@ description: "Builds a realistic, capacity-based content calendar that balances 
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

@@ -4,7 +4,7 @@ description: "Writes conversion-focused landing page copy matched to the visitor
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

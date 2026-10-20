@@ -4,7 +4,7 @@ description: "Plans and writes fair, substantiated comparison pages (brand vs co
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 
