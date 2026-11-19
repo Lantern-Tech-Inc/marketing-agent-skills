@@ -18,3 +18,4 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/validate-skills.mjs
+      - run: node scripts/sync-claude-plugin.mjs --check
