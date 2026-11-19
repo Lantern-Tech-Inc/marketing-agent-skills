@@ -1,0 +1,17 @@
+{
+  "name": "lantern-marketing",
+  "version": "1.2.0",
+  "description": "Research-backed marketing workflows for content, SEO, AI visibility, planning, and distribution. Script-free Claude plugin with 19 skills.",
+  "author": {
+    "name": "Lantern Tech Inc"
+  },
+  "homepage": "https://www.asklantern.com/skills",
+  "repository": "https://github.com/Lantern-Tech-Inc/marketing-agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "marketing",
+    "seo",
+    "content",
+    "ai-visibility"
+  ]
+}

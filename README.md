@@ -54,6 +54,14 @@ Agents discover skills from the YAML `name` and `description` in each `SKILL.md`
 
 [`registry.json`](./registry.json) provides stable package paths and metadata. Lantern also publishes a web registry at [asklantern.com/skills/index.json](https://www.asklantern.com/skills/index.json).
 
+## Claude plugin directory
+
+Submit the [`plugins/lantern-marketing/`](./plugins/lantern-marketing/) subfolder, not the repository root. It contains all 19 skills, their Markdown references, a plugin manifest, and a square PNG icon. It excludes executable files required by the root repository's maintenance tooling. Four writing skills use an explicit manual checklist instead of the draft-checking script; do not claim automated validation for those checks.
+
+Use `Lantern-Tech-Inc/marketing-agent-skills` as the repository and `plugins/lantern-marketing` as the plugin path in the submission form. Connect GitHub in the same Claude organization submitting the plugin. The directory's own validation remains authoritative; local checks cannot establish listing approval. The icon uses [Lantern's logo](https://cdn.asklantern.com/logo.png), proportionally resized and square-padded to 1024 pixels. The directory may lock the listing icon on first submission.
+
+Maintainers: after editing canonical skills or the registry, run `node scripts/sync-claude-plugin.mjs` and commit the generated snapshot. CI checks it with `node scripts/sync-claude-plugin.mjs --check`. The original skill packages and their executable checks remain unchanged.
+
 ## Lifecycle status
 
 Each skill declares `metadata.version` (semver) and `metadata.status` in its frontmatter, mirrored in `registry.json`:
