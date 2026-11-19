@@ -4,7 +4,7 @@ description: "Fact-checks every checkable claim in a draft against original sour
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

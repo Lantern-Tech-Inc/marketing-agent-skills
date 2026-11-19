@@ -4,7 +4,7 @@ description: "Audits a site's internal links and produces a prioritized link pla
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

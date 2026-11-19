@@ -4,7 +4,7 @@ description: "Produces a recurring, evidence-graded report on how a brand appear
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

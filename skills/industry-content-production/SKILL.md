@@ -4,7 +4,7 @@ description: "Builds a research-backed industry content program and publish-read
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

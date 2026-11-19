@@ -4,7 +4,7 @@ description: "Turns ranking, traffic, and technical data from named sources (Sea
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 

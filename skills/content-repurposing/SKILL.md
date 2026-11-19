@@ -4,7 +4,7 @@ description: "Turns one strong source asset (article, report, webinar, podcast, 
 license: MIT
 metadata:
   version: "1.0.0"
-  status: beta
+  status: stable
   author: Lantern
 ---
 
