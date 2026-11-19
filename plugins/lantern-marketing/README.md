@@ -6,4 +6,4 @@ Submit this repository folder to the Claude directory: plugins/lantern-marketing
 
 The canonical skills live in the repository's root skills/ directory. This snapshot includes their Markdown references, but no scripts, hooks, MCP servers, or package-manager configuration. Four writing skills use explicit manual structural checks instead of the executable draft checker. Manual checks are not automated validation.
 
-The plugin icon is an original placeholder lantern graphic, not an official brand asset. Directory icons may be locked on first submission; replace it before submission if needed.
+The plugin icon uses Lantern's logo from https://cdn.asklantern.com/logo.png, proportionally resized and square-padded to 1024 pixels for directory requirements. Directory icons may be locked on first submission.
